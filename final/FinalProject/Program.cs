@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 
-
 public abstract class FitnessActivity
 {
     public string Name { get; protected set; }
@@ -14,12 +13,11 @@ public abstract class FitnessActivity
     public abstract void PerformActivity();
 }
 
-
 public class User
 {
     private string username;
     private int age;
-    private List<FitnessActivity> activities;
+    protected List<FitnessActivity> activities;
 
     public User(string username, int age)
     {
@@ -37,10 +35,17 @@ public class User
     {
         Console.WriteLine($"User: {username}, Age: {age}");
         Console.WriteLine("Activities:");
-        foreach (var activity in activities)
+        for (int i = 0; i < activities.Count; i++)
         {
-            Console.WriteLine($"- {activity.Name}");
+            Console.WriteLine($"{i + 1}. {activities[i].Name}");
         }
+    }
+
+    protected List<FitnessActivity> Activities => activities;
+
+    public List<FitnessActivity> GetActivities()
+    {
+        return activities;
     }
 }
 
@@ -48,10 +53,9 @@ public class Running : FitnessActivity
 {
     public Running() : base("Running") { }
 
-
     public override void PerformActivity()
     {
-        Console.WriteLine($"Running does not only benefit your body by strengthening muscles and bones it also improves your mental health and even your memory and ability to learn!");
+        Console.WriteLine($"Running does not only benefit your body by strengthening muscles and bones, it also improves your mental health and even your memory and ability to learn!");
     }
 }
 
@@ -61,14 +65,13 @@ public class Cycling : FitnessActivity
 
     public override void PerformActivity()
     {
-        Console.WriteLine($"Cycling is a good way to reduce weight it also raises your metabolic rate.");
+        Console.WriteLine($"Cycling is a good way to reduce weight, and it also raises your metabolic rate.");
     }
 }
 
 public class Weightlifting : FitnessActivity
 {
     public Weightlifting() : base("Weightlifting") { }
-
 
     public override void PerformActivity()
     {
@@ -90,15 +93,33 @@ class Program
         user.AddActivity(cycling);
         user.AddActivity(weightlifting);
 
-        user.DisplayActivities();
+        Console.WriteLine("Welcome to the Fitness App!");
+        Console.WriteLine("Please choose an activity to perform:");
 
-        // Perform activities
-        Console.WriteLine("\nPerforming Activities:");
-        foreach (var activity in user.activities) 
+        while (true)
         {
-            Console.WriteLine($"Activity: {activity.Name}");
-            activity.PerformActivity();
-            Console.WriteLine();
+            user.DisplayActivities();
+            int choice;
+
+            if (int.TryParse(Console.ReadLine(), out choice) && choice >= 1 && choice <= user.GetActivities().Count)
+            {
+                FitnessActivity selectedActivity = user.GetActivities()[choice - 1];
+                Console.WriteLine($"\nPerforming {selectedActivity.Name} activity:");
+                selectedActivity.PerformActivity();
+            }
+            else
+            {
+                Console.WriteLine("Invalid choice. Please select a valid activity.");
+            }
+
+            Console.WriteLine("Do you want to perform another activity? (Y/N)");
+            string response = Console.ReadLine();
+            if (response != null && response.ToLower() != "y")
+            {
+                break;
+            }
         }
     }
 }
+
+
