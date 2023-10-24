@@ -18,7 +18,7 @@ public class Goal
 
     public virtual void RecordEvent()
     {
-        // Base behavior when an event is recorded
+       
         Progress++;
         if (Progress >= Value)
         {
@@ -33,35 +33,35 @@ public class Goal
     }
 }
 
-// SimpleGoal class (inherits from Goal)
+
 public class SimpleGoal : Goal
 {
     public SimpleGoal(string name, int value) : base(name, value) { }
 
     public override void RecordEvent()
     {
-        // Override base behavior for SimpleGoal
+      
         base.RecordEvent();
-        // Add additional behavior, e.g., award points
-        ScoringSystem.AddPoints(10); // Adjust the points awarded as needed
+       
+        ScoringSystem.AddPoints(10); 
     }
 }
 
-// EternalGoal class (inherits from Goal)
+
 public class EternalGoal : Goal
 {
     public EternalGoal(string name, int value) : base(name, value) { }
 
     public override void RecordEvent()
     {
-        // Override base behavior for EternalGoal
+       
         base.RecordEvent();
-        // Add additional behavior, e.g., award points
-        ScoringSystem.AddPoints(20); // Adjust the points awarded as needed
+       
+        ScoringSystem.AddPoints(20); 
     }
 }
 
-// ChecklistGoal class (inherits from Goal)
+
 public class ChecklistGoal : Goal
 {
     public int Bonus { get; set; }
@@ -73,13 +73,13 @@ public class ChecklistGoal : Goal
 
     public override void RecordEvent()
     {
-        // Override base behavior for ChecklistGoal
+        
         base.RecordEvent();
-        // Add additional behavior, e.g., award points
+        
         if (IsComplete && Progress % Value == 0)
         {
-            // Award bonus points
-            ScoringSystem.AddPoints(Bonus); // Adjust the points awarded as needed
+           
+            ScoringSystem.AddPoints(Bonus); 
         }
     }
 
